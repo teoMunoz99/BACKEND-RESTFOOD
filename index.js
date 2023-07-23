@@ -4,6 +4,7 @@ import morgan from 'morgan';
 import * as dotenv from 'dotenv';
 import './src/database/dbConnection';
 import platosRouter from './src/routes/platos.routes'
+import usuariosRouter from './src/routes/usuarios.routes'
 
 dotenv.config();
 
@@ -24,3 +25,4 @@ app.use(morgan('dev')); //nos da una info extra en la terminal
 //rutas
 
 app.use("/apiRestFood", platosRouter);
+app.use("/apiRestFood/auth", usuariosRouter);

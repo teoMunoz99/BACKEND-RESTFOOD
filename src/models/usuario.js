@@ -17,8 +17,7 @@ const usuarioSchema = new Schema({
     contrasenia: {
         type: String,
         required: true,
-        minlength: 6,
-        maxlength:12
+        minlength: 6
     },
     imagen: {
         type: String,

@@ -3,6 +3,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 import * as dotenv from 'dotenv';
 import './src/database/dbConnection';
+import platosRouter from './src/routes/platos.routes'
 
 dotenv.config();
 
@@ -22,6 +23,4 @@ app.use(morgan('dev')); //nos da una info extra en la terminal
 
 //rutas
 
-app.get('/prueba', (req,res)=>{
-    res.send('esto es una prueba de la peticion GET a mi backend')
-})
+app.use("/apiRestFood", platosRouter);

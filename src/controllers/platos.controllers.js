@@ -65,15 +65,15 @@ export const editarPlato = async (req,res)=>{
     }
 }
 
-/*//controlador para obtener una tarea
-export const obtenerUnaTarea = async (req, res)=>{
+//controlador para obtener un plato
+export const obtenerUnPlato = async (req, res)=>{
     try{
-        const tarea = await Tarea.findById(req.params.id);
-        res.status(200).json(tarea);
+        const plato = await Plato.findById(req.params.id);
+        res.status(200).json(plato);
     }catch(error){
         console.log(error);
         res.status(404).json({
-            mensaje: 'Error al buscar las tareas'
+            mensaje: 'Error al buscar el plato'
         })
     }
-}*/
+}

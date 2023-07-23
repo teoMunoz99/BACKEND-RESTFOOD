@@ -18,6 +18,8 @@ const platoSchema = new Schema({
     },
     descripcion: {
         type: String,
+        minlength: 3,
+        maxlength: 200,
         required: true
     },
     stock: {
@@ -27,6 +29,7 @@ const platoSchema = new Schema({
     },
     categoria: {
         type: String,
+        required: true,
         enum: ['entradas', 'bebidas', 'postres', 'bebidasAlcoholicas', 'comidasVeganas']
     }
 });

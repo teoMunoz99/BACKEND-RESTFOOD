@@ -48,24 +48,24 @@ export const borrarUnPlato = async (req,res)=>{
     }
 }
 
-/*//controlador para editar una tarea
+//controlador para editar un plato
 
-export const editarTarea = async (req,res)=>{
+export const editarPlato = async (req,res)=>{
     try {
         //extraer el id del request y el body
-        await Tarea.findByIdAndUpdate(req.params.id,req.body);
+        await Plato.findByIdAndUpdate(req.params.id,req.body);
         res.status(200).json({
-            mensaje: "La tarea fue editada correctamente"
+            mensaje: "El plato fue editado correctamente"
         });
     } catch (error) {
         console.log(error);
         res.status(404).json({
-            mensaje: 'Error al editar la tarea'
+            mensaje: 'Error al editar el plato'
         })
     }
 }
 
-//controlador para obtener una tarea
+/*//controlador para obtener una tarea
 export const obtenerUnaTarea = async (req, res)=>{
     try{
         const tarea = await Tarea.findById(req.params.id);

@@ -2,11 +2,11 @@ import Plato from "../models/plato"
 
 
 //controlador para obtener todos los platos
-export const obtenerPlatos = async (req, res)=>{
-    try{
+export const obtenerPlatos = async (req, res) => {
+    try {
         const platos = await Plato.find();
         res.status(200).json(platos);
-    }catch(error){
+    } catch (error) {
         console.log(error);
         res.status(404).json({
             mensaje: 'Error al buscar los platos'
@@ -15,15 +15,15 @@ export const obtenerPlatos = async (req, res)=>{
 }
 
 //controlador para crear un plato 
-export const crearPlato = async (req, res)=>{
-    try{
+export const crearPlato = async (req, res) => {
+    try {
         console.log(req.body);
         const platoNuevo = new Plato(req.body);
         await platoNuevo.save();
         res.status(201).json({
             mensaje: 'El plato fue creado correctamente'
         })
-   }catch(error){
+    } catch (error) {
         console.log(error);
         res.status(404).json({
             mensaje: 'Error al crear el plato'
@@ -33,7 +33,7 @@ export const crearPlato = async (req, res)=>{
 
 //controlador para borrar un plato 
 
-export const borrarUnPlato = async (req,res)=>{
+export const borrarUnPlato = async (req, res) => {
     try {
         //obtener el id y luego solicitar a moongoose el borrar
         await Plato.findByIdAndDelete(req.params.id);
@@ -48,12 +48,13 @@ export const borrarUnPlato = async (req,res)=>{
     }
 }
 
+
 //controlador para editar un plato
 
-export const editarPlato = async (req,res)=>{
+export const editarPlato = async (req, res) => {
     try {
         //extraer el id del request y el body
-        await Plato.findByIdAndUpdate(req.params.id,req.body);
+        await Plato.findByIdAndUpdate(req.params.id, req.body);
         res.status(200).json({
             mensaje: "El plato fue editado correctamente"
         });
@@ -66,14 +67,16 @@ export const editarPlato = async (req,res)=>{
 }
 
 //controlador para obtener un plato
-export const obtenerUnPlato = async (req, res)=>{
-    try{
+export const obtenerUnPlato = async (req, res) => {
+    try {
         const plato = await Plato.findById(req.params.id);
         res.status(200).json(plato);
-    }catch(error){
+    } catch (error) {
         console.log(error);
         res.status(404).json({
             mensaje: 'Error al buscar el plato'
         })
     }
 }
+
+  

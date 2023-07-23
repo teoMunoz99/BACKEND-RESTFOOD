@@ -1,7 +1,7 @@
 import Plato from "../models/plato"
 
 
-//controlador para obtener tareas
+//controlador para obtener todos los platos
 export const obtenerPlatos = async (req, res)=>{
     try{
         const platos = await Plato.find();
@@ -14,7 +14,7 @@ export const obtenerPlatos = async (req, res)=>{
     }
 }
 
-//controlador para crear una tarea 
+//controlador para crear un plato 
 export const crearPlato = async (req, res)=>{
     try{
         console.log(req.body);
@@ -31,25 +31,24 @@ export const crearPlato = async (req, res)=>{
     }
 }
 
-/*//controlador para borrar una tarea 
+//controlador para borrar un plato 
 
-export const borrarTarea = async (req,res)=>{
+export const borrarUnPlato = async (req,res)=>{
     try {
         //obtener el id y luego solicitar a moongoose el borrar
-        console.log(req.params.id)
-        await Tarea.findByIdAndDelete(req.params.id);
+        await Plato.findByIdAndDelete(req.params.id);
         res.status(200).json({
-            mensaje: 'La tarea fue borrada'
+            mensaje: 'El plato fue borrado'
         });
     } catch (error) {
         console.log(error);
         res.status(404).json({
-            mensaje: 'Error al borrar la tarea'
+            mensaje: 'Error al borrar el plato'
         })
     }
 }
 
-//controlador para editar una tarea
+/*//controlador para editar una tarea
 
 export const editarTarea = async (req,res)=>{
     try {

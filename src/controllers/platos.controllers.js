@@ -18,12 +18,6 @@ export const obtenerPlatos = async (req, res) => {
 //controlador para crear un plato 
 export const crearPlato = async (req, res) => {
     try {
-
-        const errors = validationResult(req);
-        if(!errors.isEmpty()){
-            return res.status(400).json({errores: errors.array()})
-        }
-
         console.log(req.body);
         const platoNuevo = new Plato(req.body);
         await platoNuevo.save();

@@ -1,7 +1,7 @@
 import Usuario from "../models/usuario";
 //import bcrypt from 'bcrypt';
 
-/*export const login = async (req, res) => {
+export const login = async (req, res) => {
     try {
         //verificar si existe un mail como el recibido
         const { email, contrasenia } = req.body;
@@ -15,8 +15,8 @@ import Usuario from "../models/usuario";
             });
         }
         // si no es valido el contrasenia
-        const passwordValido = bcrypt.compareSync(contrasenia, usuario.contrasenia); // devulve un valor booleano
-        if (!passwordValido) {
+        //const passwordValido = bcrypt.compareSync(contrasenia, usuario.contrasenia); // devulve un valor booleano
+        if (contrasenia !== usuario.contrasenia) {
             return res.status(400).json({
                 mensaje: "Correo o contrasenia invalido - contrasenia",
             });
@@ -33,7 +33,7 @@ import Usuario from "../models/usuario";
             mensaje: "usuario o contraseña invalido",
         });
     }
-};*/
+};
 
 export const crearUsuario = async (req, res) => {
     try {
@@ -64,7 +64,7 @@ export const crearUsuario = async (req, res) => {
     }
 };
 
-/*export const listarUsuarios = async (req, res) => {
+export const listarUsuarios = async (req, res) => {
     // res.send("esto es una prueba de una peticion get");
     try {
         //buscar en la BD la collection de productos
@@ -77,4 +77,4 @@ export const crearUsuario = async (req, res) => {
             mensaje: "Error al buscar los usuarios",
         });
     }
-};*/
+};

@@ -12,6 +12,7 @@ const router = Router();
 
 //agregar las validaciones con express-validator
 
+router.route("/").get(listarUsuarios);
 router.route("/nuevo").post(validarUsuario, crearUsuario);
 
 //router

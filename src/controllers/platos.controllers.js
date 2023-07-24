@@ -33,10 +33,8 @@ export const crearPlato = async (req, res) => {
 }
 
 //controlador para borrar un plato 
-
 export const borrarUnPlato = async (req, res) => {
     try {
-        //obtener el id y luego solicitar a moongoose el borrar
         await Plato.findByIdAndDelete(req.params.id);
         res.status(200).json({
             mensaje: 'El plato fue borrado'
@@ -49,9 +47,7 @@ export const borrarUnPlato = async (req, res) => {
     }
 }
 
-
 //controlador para editar un plato
-
 export const editarPlato = async (req, res) => {
     try {
         //extraer el id del request y el body

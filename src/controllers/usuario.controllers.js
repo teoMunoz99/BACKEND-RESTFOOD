@@ -7,18 +7,18 @@ export const login = async (req, res) => {
         const { email, contrasenia } = req.body;
 
         //verificar si el email ya existe
-        let usuario = await Usuario.findOne({ email }); //devulve un null
+        let usuario = await Usuario.findOne({ email });
         if (!usuario) {
             //si el usuario no existe
             return res.status(400).json({
-                mensaje: "Correo o contrasenia invalido - correo",
+                mensaje: "Correo o contrasenia invalido",
             });
         }
         // si no es valido el contrasenia
-        const contraseniaValida = bcrypt.compareSync(contrasenia, usuario.contrasenia); // devulve un valor booleano
+        const contraseniaValida = bcrypt.compareSync(contrasenia, usuario.contrasenia);
         if (!contraseniaValida) {
             return res.status(400).json({
-                mensaje: "Correo o contrasenia invalido - contrasenia",
+                mensaje: "Correo o contrasenia invalido",
             });
         }
         //responder que el usuario es correcto
@@ -68,7 +68,6 @@ export const crearUsuario = async (req, res) => {
 };
 
 export const listarUsuarios = async (req, res) => {
-    // res.send("esto es una prueba de una peticion get");
     try {
         //buscar en la BD la collection de productos
         const usuarios = await Usuario.find();

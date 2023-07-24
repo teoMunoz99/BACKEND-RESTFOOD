@@ -20,7 +20,7 @@ app.listen(app.get("port"), ()=>{
 app.use(cors()); 
 app.use(express.json());
 app.use(express.urlencoded({extended: true})); //permite en el objeto request los strings y arrays
-app.use(morgan('dev')); //nos da una info extra en la terminal
+app.use(morgan('dev'));
 
 //rutas
 

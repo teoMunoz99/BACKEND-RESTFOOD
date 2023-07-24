@@ -1,5 +1,5 @@
 import Usuario from "../models/usuario";
-//import bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt';
 
 export const login = async (req, res) => {
     try {
@@ -50,6 +50,9 @@ export const crearUsuario = async (req, res) => {
         }
         //guardamos el nuevo usuario en la BD
         usuario = new Usuario(req.body);
+        //edito el usuario para encriptar la contraseña
+        const saltos = bcrypt.genSaltSync(10);
+        usuario.contrasenia = bcrypt.hashSync(req.body.contrasenia, saltos)
         await usuario.save();
         res.status(201).json({
             mensaje: "usuario creado",

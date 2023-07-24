@@ -15,8 +15,8 @@ export const login = async (req, res) => {
             });
         }
         // si no es valido el contrasenia
-        //const passwordValido = bcrypt.compareSync(contrasenia, usuario.contrasenia); // devulve un valor booleano
-        if (contrasenia !== usuario.contrasenia) {
+        const contraseniaValida = bcrypt.compareSync(contrasenia, usuario.contrasenia); // devulve un valor booleano
+        if (!contraseniaValida) {
             return res.status(400).json({
                 mensaje: "Correo o contrasenia invalido - contrasenia",
             });

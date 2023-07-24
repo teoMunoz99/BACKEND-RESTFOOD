@@ -6,12 +6,13 @@ import {
   crearUsuario,
   login,
 } from "../controllers/usuario.controllers";
+import validarUsuario from "../helpers/validarUsuario";
 
 const router = Router();
 
 //agregar las validaciones con express-validator
 
-router.route("/nuevo").post(crearUsuario);
+router.route("/nuevo").post(validarUsuario, crearUsuario);
 
 //router
   /*.route("/")

@@ -80,3 +80,29 @@ export const listarUsuarios = async (req, res) => {
         });
     }
 };
+
+export const editarEstadoUsuario = async (req, res) => {
+    try {
+        const { email } = req.params;
+        const { estado } = req.body;
+        const usuarioActualizado = await Usuario.findOneAndUpdate(
+            { email: email },
+            { estado: estado }
+        );
+        if (!usuarioActualizado) {
+            return res.status(404).json({
+                mensaje: 'Usuario no encontrado'
+            });
+        }
+
+        res.status(200).json({
+            mensaje: "El estado del usuario fue editado correctamente",
+            usuario: usuarioActualizado
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(404).json({
+            mensaje: 'Error al editar el estado'
+        })
+    }
+}

@@ -5,6 +5,7 @@ import {
   listarUsuarios,
   crearUsuario,
   login,
+  editarEstadoUsuario
 } from "../controllers/usuario.controllers";
 import validarUsuario from "../helpers/validarUsuario";
 
@@ -23,5 +24,10 @@ router.route("/")
   ],
   login);
 router.route("/nuevo").post(validarUsuario, crearUsuario);
+
+router.route("/editarEstadoUsuario/:email").post([
+  check("estado", "El estado es obligatorio").notEmpty(),
+  resultadoValidacion
+], editarEstadoUsuario);
 
 export default router;

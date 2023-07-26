@@ -106,3 +106,39 @@ export const editarEstadoUsuario = async (req, res) => {
         })
     }
 }
+
+export const crearPedido = async (req, res) => {
+    try {
+        const { email, pedido } = req.body;
+
+        // Verificar si se proporcionó el "email" y los "pedidos"
+        if (!email || !pedido || pedido.length === 0) {
+            return res.status(400).json({
+                mensaje: 'Debe proporcionar el email y al menos un pedido',
+            });
+        }
+
+        // Buscar al usuario por su email
+        const usuarioPedido = await Usuario.findOneAndUpdate(
+            { email: email },
+            { pedido: pedido }
+        );
+
+        // Verificar si el usuario fue encontrado
+        if (!usuarioPedido) {
+            return res.status(404).json({
+                mensaje: 'Usuario no encontrado'
+            });
+        }
+
+        res.status(200).json({
+            mensaje: "El pedido del usuario fue cargado correctamente",
+            usuario: usuarioPedido
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(404).json({
+            mensaje: 'Error al cargar el pedido'
+        });
+    }
+};

@@ -4,8 +4,7 @@ import {
     obtenerPlatos,
     borrarUnPlato,
     editarPlato,
-    obtenerUnPlato,
-    borrarPlatos,
+    obtenerUnPlato
 } from "../controllers/platos.controllers";
 import validarPlato from "../helpers/validarPlato";
 
@@ -21,4 +20,5 @@ router
     .put(editarPlato)
     .get(obtenerUnPlato);
 
+//router.route("/platos/borrarVarios").delete(borrarVariosPlatos)
 export default router;

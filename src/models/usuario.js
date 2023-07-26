@@ -1,5 +1,32 @@
 import mongoose, { Schema } from "mongoose";
 
+const pedidoSchema = new Schema({
+    domicilio: {
+        type: String,
+        required: true
+    },
+    total: {
+        type: String,
+        required: true
+    },
+    nombreProducto: {
+        type: [String],
+        required: true
+    },
+    estado: {
+        type: String,
+        required: true
+    },
+    fecha: {
+        type: String,
+        required: true
+    },
+    envio: {
+        type: String,
+        required: true
+    }
+});
+
 const usuarioSchema = new Schema({
     nombreUsuario: {
         type: String,
@@ -34,7 +61,7 @@ const usuarioSchema = new Schema({
         required: true
     },
     pedido: {
-        type: [String],
+        type: [pedidoSchema],
         default: [] 
     },
     favoritos: {

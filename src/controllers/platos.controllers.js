@@ -1,5 +1,8 @@
 import { validationResult } from "express-validator";
 import Plato from "../models/plato"
+import mongoose from "mongoose";
+const { ObjectId } = mongoose.Types; // Agrega esta línea para obtener el método ObjectId
+
 
 
 //controlador para obtener todos los platos
@@ -75,5 +78,6 @@ export const obtenerUnPlato = async (req, res) => {
         })
     }
 }
+
 
   

@@ -5,7 +5,8 @@ import {
   listarUsuarios,
   crearUsuario,
   login,
-  editarEstadoUsuario
+  editarEstadoUsuario,
+  crearPedido
 } from "../controllers/usuario.controllers";
 import validarUsuario from "../helpers/validarUsuario";
 
@@ -29,5 +30,7 @@ router.route("/editarEstadoUsuario/:email").post([
   check("estado", "El estado es obligatorio").notEmpty(),
   resultadoValidacion
 ], editarEstadoUsuario);
+
+router.route("/crearPedido").post(crearPedido);
 
 export default router;

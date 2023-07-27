@@ -52,12 +52,12 @@ const usuarioSchema = new Schema({
   },
   estado: {
     type: String,
-    enum: "activo",
+    enum: ["activo", "suspendido"],
     required: true,
   },
   rol: {
     type: String,
-    enum: "usuario",
+    enum: ["usuario", "administrador"],
     required: true,
   },
   pedido: {

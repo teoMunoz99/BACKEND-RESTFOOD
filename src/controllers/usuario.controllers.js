@@ -23,7 +23,15 @@ export const login = async (req, res) => {
     res.status(200).json({
       mensaje: "El usuario existe",
       uid: usuario._id,
-      nombre: usuario.nombreUsuario,
+      nombre: usuario.nombre,
+      email: usuario.email,
+      imagen: usuario.imagen,
+      estado: usuario.estado,
+      pedido: usuario.pedido,
+      carrito: usuario.carrito,
+      favoritos: usuario.favoritos,
+      estado: usuario.estado,
+      rol: usuario.rol,
     });
   } catch (error) {
     console.log(error);

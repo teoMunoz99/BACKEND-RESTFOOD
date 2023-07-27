@@ -8,6 +8,7 @@ import {
   editarEstadoUsuario,
   crearPedido,
   eliminarUsuario,
+  editarUsuario,
 } from "../controllers/usuario.controllers";
 import validarUsuario from "../helpers/validarUsuario";
 
@@ -32,7 +33,10 @@ router
     login
   );
 router.route("/nuevo").post(validarUsuario, crearUsuario);
-router.route("/eliminar/:id").delete(eliminarUsuario);
+router
+  .route("/usuario/:id")
+  .delete(eliminarUsuario)
+  .put(validarUsuario, editarUsuario);
 
 router
   .route("/editarEstadoUsuario/:email")

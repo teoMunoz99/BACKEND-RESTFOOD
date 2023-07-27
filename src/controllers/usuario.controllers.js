@@ -73,6 +73,19 @@ export const listarUsuarios = async (req, res) => {
   }
 };
 
+export const editarUsuario = async (req, res) => {
+  try {
+    await Usuario.findByIdAndUpdate(req.params.id, req.body);
+    res.status(200).json({
+      mensaje: "El usuario fue editado correctamente",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({
+      mensaje: "Error al editar el usuario",
+    });
+  }
+};
 export const editarEstadoUsuario = async (req, res) => {
   try {
     const { email } = req.params;

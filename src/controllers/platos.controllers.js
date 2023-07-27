@@ -16,7 +16,6 @@ export const obtenerPlatos = async (req, res) => {
 
 export const crearPlato = async (req, res) => {
   try {
-    console.log(req.body);
     const platoNuevo = new Plato(req.body);
     await platoNuevo.save();
     res.status(201).json({
@@ -30,7 +29,7 @@ export const crearPlato = async (req, res) => {
   }
 };
 
-export const borrarUnPlato = async (req, res) => {
+export const borrarPlato = async (req, res) => {
   try {
     await Plato.findByIdAndDelete(req.params.id);
     res.status(200).json({
@@ -58,7 +57,7 @@ export const editarPlato = async (req, res) => {
   }
 };
 
-export const obtenerUnPlato = async (req, res) => {
+export const obtenerPlato = async (req, res) => {
   try {
     const plato = await Plato.findById(req.params.id);
     res.status(200).json(plato);

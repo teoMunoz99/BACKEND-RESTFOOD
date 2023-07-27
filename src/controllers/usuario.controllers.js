@@ -35,19 +35,13 @@ export const login = async (req, res) => {
 
 export const crearUsuario = async (req, res) => {
   try {
-    const { email, rol } = req.body;
+    const { email } = req.body;
 
     let usuario = await Usuario.findOne({ email });
     if (usuario) {
       return res.status(400).json({
         mensaje: "Ya existe un usuario con el correo enviado",
       });
-    }
-
-    if (rol !== "administrador") {
-      req.body.favoritos = [];
-      req.body.carrito = [];
-      req.body.estado = "activo";
     }
 
     usuario = new Usuario(req.body);

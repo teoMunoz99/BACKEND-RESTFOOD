@@ -1,7 +1,9 @@
 import Usuario from "../models/usuario";
-import bcrypt from 'bcrypt';
+import bcrypt from "bcrypt";
+import generarJWT from "../helpers/token-sigin";
 
 export const login = async (req, res) => {
+    console.log(req.body);
     try {
         //verificar si existe un mail como el recibido
         const { email, contrasenia } = req.body;
@@ -21,11 +23,14 @@ export const login = async (req, res) => {
                 mensaje: "Correo o contrasenia invalido",
             });
         }
+        // Prueba de token
+        const token = await generarJWT(usuario._id, usuario.nombreUsuario);
         //responder que el usuario es correcto
         res.status(200).json({
             mensaje: "El usuario existe",
             uid: usuario._id,
             nombre: usuario.nombreUsuario,
+            token,
         });
     } catch (error) {
         console.log(error);
@@ -36,6 +41,7 @@ export const login = async (req, res) => {
 };
 
 export const crearUsuario = async (req, res) => {
+    console.log(req.body);
     try {
         const { email } = req.body;
 
@@ -52,7 +58,7 @@ export const crearUsuario = async (req, res) => {
         usuario = new Usuario(req.body);
         //edito el usuario para encriptar la contraseña
         const saltos = bcrypt.genSaltSync(10);
-        usuario.contrasenia = bcrypt.hashSync(req.body.contrasenia, saltos)
+        usuario.contrasenia = bcrypt.hashSync(req.body.contrasenia, saltos);
         await usuario.save();
         res.status(201).json({
             mensaje: "usuario creado",
@@ -91,21 +97,21 @@ export const editarEstadoUsuario = async (req, res) => {
         );
         if (!usuarioActualizado) {
             return res.status(404).json({
-                mensaje: 'Usuario no encontrado'
+                mensaje: "Usuario no encontrado",
             });
         }
 
         res.status(200).json({
             mensaje: "El estado del usuario fue editado correctamente",
-            usuario: usuarioActualizado
+            usuario: usuarioActualizado,
         });
     } catch (error) {
         console.log(error);
         res.status(404).json({
-            mensaje: 'Error al editar el estado'
-        })
+            mensaje: "Error al editar el estado",
+        });
     }
-}
+};
 
 export const crearPedido = async (req, res) => {
     try {
@@ -114,7 +120,7 @@ export const crearPedido = async (req, res) => {
         // Verificar si se proporcionó el "email" y los "pedidos"
         if (!email || !pedido || pedido.length === 0) {
             return res.status(400).json({
-                mensaje: 'Debe proporcionar el email y al menos un pedido',
+                mensaje: "Debe proporcionar el email y al menos un pedido",
             });
         }
 
@@ -127,18 +133,18 @@ export const crearPedido = async (req, res) => {
         // Verificar si el usuario fue encontrado
         if (!usuarioPedido) {
             return res.status(404).json({
-                mensaje: 'Usuario no encontrado'
+                mensaje: "Usuario no encontrado",
             });
         }
 
         res.status(200).json({
             mensaje: "El pedido del usuario fue cargado correctamente",
-            usuario: usuarioPedido
+            usuario: usuarioPedido,
         });
     } catch (error) {
         console.log(error);
         res.status(404).json({
-            mensaje: 'Error al cargar el pedido'
+            mensaje: "Error al cargar el pedido",
         });
     }
 };

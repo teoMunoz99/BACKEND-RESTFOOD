@@ -3,28 +3,28 @@ import mongoose, { Schema } from "mongoose";
 const pedidoSchema = new Schema({
     domicilio: {
         type: String,
-        required: true
+        required: true,
     },
     total: {
         type: String,
-        required: true
+        required: true,
     },
     nombreProducto: {
         type: [String],
-        required: true
+        required: true,
     },
     estado: {
         type: String,
-        required: true
+        required: true,
     },
     fecha: {
         type: String,
-        required: true
+        required: true,
     },
     envio: {
         type: String,
-        required: true
-    }
+        required: true,
+    },
 });
 
 const usuarioSchema = new Schema({
@@ -32,49 +32,48 @@ const usuarioSchema = new Schema({
         type: String,
         required: true,
         minlength: 3,
-        maxlength: 50
+        maxlength: 50,
     },
     email: {
         type: String,
         required: true,
         unique: true,
         maxlength: 100,
-        match: /^\S+@\S+\.\S+$/
+        match: /^\S+@\S+\.\S+$/,
     },
     contrasenia: {
         type: String,
         required: true,
-        minlength: 6
+        minlength: 8,
     },
     imagen: {
         type: String,
-        required: true
+        required: true,
     },
     estado: {
         type: String,
-        enum: ['activo', 'inactivo'], // Estado debe ser 'activo' o 'inactivo'
-        required: true
+        enum: ["activo", "inactivo"], // Estado debe ser 'activo' o 'inactivo'
+        required: true,
     },
     rol: {
         type: String,
-        enum: ['usuario', 'administrador'], // Rol debe ser 'usuario' o 'administrador'
-        required: true
+        enum: ["usuario", "administrador"], // Rol debe ser 'usuario' o 'administrador'
+        required: true,
     },
     pedido: {
         type: [pedidoSchema],
-        default: [] 
+        default: [],
     },
     favoritos: {
         type: [String],
-        default: []
+        default: [],
     },
     carrito: {
         type: [String],
-        default: []
-    }
+        default: [],
+    },
 });
 
-
-const Usuario = mongoose.model('usuario', usuarioSchema)
+const Usuario = mongoose.model("usuario", usuarioSchema);
 
 export default Usuario;

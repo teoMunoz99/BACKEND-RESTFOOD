@@ -57,8 +57,16 @@ export const crearUsuario = async (req, res) => {
     usuario.contrasenia = bcrypt.hashSync(req.body.contrasenia, saltos);
     await usuario.save();
     res.status(201).json({
-      mensaje: "Usuario creado",
-      nombre: usuario.nombre,
+      status: usuario.status,
+      contrasenia: usuario.contrasenia,
+      usuario: usuario.nombre,
+      email: usuario.email,
+      imagen: usuario.imagen,
+      estado: usuario.estado,
+      rol: usuario.rol,
+      pedido: usuario.pedido,
+      carrito: usuario.carrito,
+      favoritos: usuario.favoritos,
       uid: usuario._id,
     });
   } catch (error) {

@@ -236,20 +236,38 @@ export const agregarProductoAlCarrito = async (req, res) => {
   }
 };
 
-//   const usuarioID = "ID_DEL_USUARIO"; // Reemplaza con el ID del usuario
-//   const nuevoProducto = {
-//     nombre: "Producto de ejemplo",
-//     precio: 20.99,
-//     cantidad: 1,
-//     // Otros datos del producto que desees agregar
-//   };
+export const actualizarStock = async (req, res) => {
+  try {
+    const { usuarioID, productos } = req.body;
 
-//   agregarProductoAlCarrito(usuarioID, nuevoProducto)
-//     .then((usuarioConCarritoActualizado) => {
-//       console.log(usuarioConCarritoActualizado);
-//       // Aquí puedes enviar la respuesta al cliente, por ejemplo, utilizando res.json()
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//       // Aquí puedes enviar una respuesta de error al cliente
-//     });
+    const usuario = await Usuario.findById(usuarioID);
+
+    if (!usuario) {
+      return res.status(404).json({ mensaje: "Usuario no encontrado." });
+    }
+
+    const carritoActual = usuario.carrito || [];
+
+    productos.forEach((producto) => {
+      const productoExistente = carritoActual.find(
+        (producto) => producto._id === producto._id
+      );
+
+      if (productoExistente) {
+        productoExistente.stock = producto.stock;
+      }
+    });
+
+    usuario.carrito = carritoActual;
+
+    await usuario.save();
+
+    res.status(200).json({
+      mensaje: "Stock actualizado exitosamente",
+      carrito: usuario.carrito,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ mensaje: "Hubo un error al actualizar el stock." });
+  }
+};

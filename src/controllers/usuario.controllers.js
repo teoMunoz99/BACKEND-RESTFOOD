@@ -114,6 +114,7 @@ export const editarUsuario = async (req, res) => {
     });
   }
 };
+
 export const editarEstadoUsuario = async (req, res) => {
   try {
     const { email } = req.params;
@@ -194,5 +195,79 @@ export const crearPedido = async (req, res) => {
     res.status(404).json({
       mensaje: "Error al cargar el pedido",
     });
+  }
+};
+
+export const agregarProductoAlCarrito = async (req, res) => {
+  try {
+    const { usuarioID, productoID, nuevoProducto } = req.body;
+
+    const usuario = await Usuario.findById(usuarioID);
+
+    if (!usuario) {
+      return res.status(404).json({ mensaje: "Usuario no encontrado." });
+    }
+
+    const carritoActual = usuario.carrito || [];
+    const productoExistente = carritoActual.find(
+      (producto) =>
+        producto._id === productoID && producto.precio === nuevoProducto.precio
+    );
+
+    if (productoExistente) {
+      productoExistente.cantidad += nuevoProducto.cantidad;
+    } else {
+      carritoActual.push(nuevoProducto);
+    }
+
+    usuario.carrito = carritoActual;
+
+    await usuario.save();
+
+    res.status(200).json({
+      mensaje: "Producto agregado al carrito exitosamente",
+      carrito: usuario.carrito,
+    });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ mensaje: "Hubo un error al agregar el producto al carrito." });
+  }
+};
+
+export const actualizarStock = async (req, res) => {
+  try {
+    const { usuarioID, productos } = req.body;
+
+    const usuario = await Usuario.findById(usuarioID);
+
+    if (!usuario) {
+      return res.status(404).json({ mensaje: "Usuario no encontrado." });
+    }
+
+    const carritoActual = usuario.carrito || [];
+
+    productos.forEach((producto) => {
+      const productoExistente = carritoActual.find(
+        (producto) => producto._id === producto._id
+      );
+
+      if (productoExistente) {
+        productoExistente.stock = producto.stock;
+      }
+    });
+
+    usuario.carrito = carritoActual;
+
+    await usuario.save();
+
+    res.status(200).json({
+      mensaje: "Stock actualizado exitosamente",
+      carrito: usuario.carrito,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ mensaje: "Hubo un error al actualizar el stock." });
   }
 };

@@ -114,28 +114,30 @@ export const editarUsuario = async (req, res) => {
     });
   }
 };
+
 export const editarEstadoUsuario = async (req, res) => {
   try {
-    const { email } = req.params;
+    const { id } = req.params;
     const { estado } = req.body;
-    const usuarioActualizado = await Usuario.findOneAndUpdate(
-      { email: email },
-      { estado: estado }
-    );
-    if (!usuarioActualizado) {
+    const usuario = await Usuario.findById(id);
+
+    if (!usuario) {
       return res.status(404).json({
         mensaje: "Usuario no encontrado",
       });
     }
 
+    usuario.estado = estado;
+
+    await usuario.save();
     res.status(200).json({
       mensaje: "El estado del usuario fue editado correctamente",
-      usuario: usuarioActualizado,
+      usuario: usuario,
     });
   } catch (error) {
     console.log(error);
     res.status(404).json({
-      mensaje: "Error al editar el estado",
+      mensaje: "Error al editar el estado del usuario",
     });
   }
 };
@@ -227,4 +229,82 @@ export const crearPedido = async (req, res) => {
       mensaje: "Error al cargar el pedido",
     });
   }
+<<<<<<< HEAD
 };
+=======
+};
+
+export const agregarProductoAlCarrito = async (req, res) => {
+  try {
+    const { usuarioID, productoID, nuevoProducto } = req.body;
+
+    const usuario = await Usuario.findById(usuarioID);
+
+    if (!usuario) {
+      return res.status(404).json({ mensaje: "Usuario no encontrado." });
+    }
+
+    const carritoActual = usuario.carrito || [];
+    const productoExistente = carritoActual.find(
+      (producto) =>
+        producto._id === productoID && producto.precio === nuevoProducto.precio
+    );
+
+    if (productoExistente) {
+      productoExistente.cantidad += nuevoProducto.cantidad;
+    } else {
+      carritoActual.push(nuevoProducto);
+    }
+
+    usuario.carrito = carritoActual;
+
+    await usuario.save();
+
+    res.status(200).json({
+      mensaje: "Producto agregado al carrito exitosamente",
+      carrito: usuario.carrito,
+    });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ mensaje: "Hubo un error al agregar el producto al carrito." });
+  }
+};
+
+export const actualizarStock = async (req, res) => {
+  try {
+    const { usuarioID, productos } = req.body;
+
+    const usuario = await Usuario.findById(usuarioID);
+
+    if (!usuario) {
+      return res.status(404).json({ mensaje: "Usuario no encontrado." });
+    }
+
+    const carritoActual = usuario.carrito || [];
+
+    productos.forEach((producto) => {
+      const productoExistente = carritoActual.find(
+        (producto) => producto._id === producto._id
+      );
+
+      if (productoExistente) {
+        productoExistente.stock = producto.stock;
+      }
+    });
+
+    usuario.carrito = carritoActual;
+
+    await usuario.save();
+
+    res.status(200).json({
+      mensaje: "Stock actualizado exitosamente",
+      carrito: usuario.carrito,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ mensaje: "Hubo un error al actualizar el stock." });
+  }
+};
+>>>>>>> a33ada28ac2517920158d4a70cfd63f2132eac50

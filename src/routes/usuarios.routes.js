@@ -10,6 +10,7 @@ import {
   editarUsuario,
   obtenerUsuarios,
   obtenerUsuario,
+  agregarFavoritos,
 } from "../controllers/usuario.controllers";
 import validarUsuario from "../helpers/validarUsuario";
 
@@ -51,5 +52,6 @@ router
   );
 
 router.route("/crearPedido").post(crearPedido);
+router.route("/cargarFavoritos").post(agregarFavoritos);
 
 export default router;

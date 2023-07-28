@@ -40,16 +40,6 @@ router
   .put(validarUsuario, editarUsuario)
   .get(obtenerUsuario);
 
-router
-  .route("/editarEstadoUsuario/:email")
-  .post(
-    [
-      check("estado", "El estado es obligatorio").notEmpty(),
-      resultadoValidacion,
-    ],
-    editarEstadoUsuario
-  );
-
 router.route("/crearPedido").post(crearPedido);
 
 export default router;

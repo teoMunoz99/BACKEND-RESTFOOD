@@ -16,7 +16,11 @@ export const obtenerPlatos = async (req, res) => {
 
 export const crearPlato = async (req, res) => {
   try {
-    const platoExiste = await Plato.findOne({ nombre: req.body.nombre });
+    const nombrePlato = req.body.nombre.trim().toLowerCase();
+    const platoExiste = await Plato.findOne({
+      nombre: { $regex: new RegExp(`^${nombrePlato}$`, "i") },
+    });
+
     if (platoExiste) {
       return res.status(400).json({
         mensaje: "El plato ya existe",

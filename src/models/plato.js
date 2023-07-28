@@ -6,6 +6,7 @@ const platoSchema = new Schema({
     required: true,
     minlength: 3,
     maxlength: 100,
+    unique: true,
   },
   imagen: {
     type: String,

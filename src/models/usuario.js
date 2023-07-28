@@ -65,13 +65,10 @@ const usuarioSchema = new Schema({
     default: [],
   },
   favoritos: {
-    type: [Number],
-    default: [],
-  },
-  carrito: {
     type: [String],
     default: [],
   },
+  carrito: [],
 });
 
 const Usuario = mongoose.model("usuario", usuarioSchema);

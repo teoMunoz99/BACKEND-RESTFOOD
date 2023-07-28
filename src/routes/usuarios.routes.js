@@ -10,6 +10,7 @@ import {
   editarUsuario,
   obtenerUsuarios,
   obtenerUsuario,
+  agregarFavoritos,
 } from "../controllers/usuario.controllers";
 import validarUsuario from "../helpers/validarUsuario";
 
@@ -40,16 +41,7 @@ router
   .put(validarUsuario, editarUsuario)
   .get(obtenerUsuario);
 
-router
-  .route("/editarEstadoUsuario/:email")
-  .post(
-    [
-      check("estado", "El estado es obligatorio").notEmpty(),
-      resultadoValidacion,
-    ],
-    editarEstadoUsuario
-  );
-
 router.route("/crearPedido").post(crearPedido);
+router.route("/cargarFavoritos").post(agregarFavoritos);
 
 export default router;

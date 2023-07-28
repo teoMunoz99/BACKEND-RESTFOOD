@@ -23,7 +23,15 @@ export const login = async (req, res) => {
     res.status(200).json({
       mensaje: "El usuario existe",
       uid: usuario._id,
-      nombre: usuario.nombreUsuario,
+      nombre: usuario.nombre,
+      email: usuario.email,
+      imagen: usuario.imagen,
+      estado: usuario.estado,
+      pedido: usuario.pedido,
+      carrito: usuario.carrito,
+      favoritos: usuario.favoritos,
+      estado: usuario.estado,
+      rol: usuario.rol,
     });
   } catch (error) {
     console.log(error);
@@ -49,8 +57,16 @@ export const crearUsuario = async (req, res) => {
     usuario.contrasenia = bcrypt.hashSync(req.body.contrasenia, saltos);
     await usuario.save();
     res.status(201).json({
-      mensaje: "Usuario creado",
-      nombre: usuario.nombre,
+      status: usuario.status,
+      contrasenia: usuario.contrasenia,
+      usuario: usuario.nombre,
+      email: usuario.email,
+      imagen: usuario.imagen,
+      estado: usuario.estado,
+      rol: usuario.rol,
+      pedido: usuario.pedido,
+      carrito: usuario.carrito,
+      favoritos: usuario.favoritos,
       uid: usuario._id,
     });
   } catch (error) {
@@ -98,28 +114,30 @@ export const editarUsuario = async (req, res) => {
     });
   }
 };
+
 export const editarEstadoUsuario = async (req, res) => {
   try {
-    const { email } = req.params;
+    const { id } = req.params;
     const { estado } = req.body;
-    const usuarioActualizado = await Usuario.findOneAndUpdate(
-      { email: email },
-      { estado: estado }
-    );
-    if (!usuarioActualizado) {
+    const usuario = await Usuario.findById(id);
+
+    if (!usuario) {
       return res.status(404).json({
         mensaje: "Usuario no encontrado",
       });
     }
 
+    usuario.estado = estado;
+
+    await usuario.save();
     res.status(200).json({
       mensaje: "El estado del usuario fue editado correctamente",
-      usuario: usuarioActualizado,
+      usuario: usuario,
     });
   } catch (error) {
     console.log(error);
     res.status(404).json({
-      mensaje: "Error al editar el estado",
+      mensaje: "Error al editar el estado del usuario",
     });
   }
 };
@@ -144,6 +162,37 @@ export const eliminarUsuario = async (req, res) => {
     console.log(error);
     res.status(400).json({
       mensaje: "Error al eliminar el usuario",
+    });
+  }
+};
+
+export const agregarFavoritos = async (req, res) => {
+  const { usuarioID } = req.params;
+  const { nuevofavoritos } = req.body;
+  try {
+    const usuario = await Usuario.findById(usuarioID);
+
+    if (!usuario) {
+      return res.status(404).json({ error: "Usuario no encontrado." });
+    }
+
+    const existe = usuario.favoritos.includes(nuevofavoritos);
+
+    if (!existe) {
+      usuario.favoritos.push(nuevofavoritos);
+    } else {
+      usuario.favoritos = usuario.favoritos.filter(
+        (fav) => fav !== nuevofavoritos
+      );
+    }
+
+    await usuario.save();
+
+    return res.status(200).json(usuario);
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({
+      mensaje: "Error al agregar a favoritos",
     });
   }
 };
@@ -178,5 +227,79 @@ export const crearPedido = async (req, res) => {
     res.status(404).json({
       mensaje: "Error al cargar el pedido",
     });
+  }
+};
+
+export const agregarProductoAlCarrito = async (req, res) => {
+  try {
+    const { usuarioID, productoID, nuevoProducto } = req.body;
+
+    const usuario = await Usuario.findById(usuarioID);
+
+    if (!usuario) {
+      return res.status(404).json({ mensaje: "Usuario no encontrado." });
+    }
+
+    const carritoActual = usuario.carrito || [];
+    const productoExistente = carritoActual.find(
+      (producto) =>
+        producto._id === productoID && producto.precio === nuevoProducto.precio
+    );
+
+    if (productoExistente) {
+      productoExistente.cantidad += nuevoProducto.cantidad;
+    } else {
+      carritoActual.push(nuevoProducto);
+    }
+
+    usuario.carrito = carritoActual;
+
+    await usuario.save();
+
+    res.status(200).json({
+      mensaje: "Producto agregado al carrito exitosamente",
+      carrito: usuario.carrito,
+    });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ mensaje: "Hubo un error al agregar el producto al carrito." });
+  }
+};
+
+export const actualizarStock = async (req, res) => {
+  try {
+    const { usuarioID, productos } = req.body;
+
+    const usuario = await Usuario.findById(usuarioID);
+
+    if (!usuario) {
+      return res.status(404).json({ mensaje: "Usuario no encontrado." });
+    }
+
+    const carritoActual = usuario.carrito || [];
+
+    productos.forEach((producto) => {
+      const productoExistente = carritoActual.find(
+        (producto) => producto._id === producto._id
+      );
+
+      if (productoExistente) {
+        productoExistente.stock = producto.stock;
+      }
+    });
+
+    usuario.carrito = carritoActual;
+
+    await usuario.save();
+
+    res.status(200).json({
+      mensaje: "Stock actualizado exitosamente",
+      carrito: usuario.carrito,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ mensaje: "Hubo un error al actualizar el stock." });
   }
 };

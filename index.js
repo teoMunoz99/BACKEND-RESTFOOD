@@ -1,6 +1,5 @@
 import express from "express";
 import cors from "cors";
-import morgan from "morgan";
 import * as dotenv from "dotenv";
 import "./src/database/dbConnection";
 import platosRouter from "./src/routes/platos.routes";

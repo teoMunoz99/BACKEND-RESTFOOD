@@ -229,9 +229,6 @@ export const crearPedido = async (req, res) => {
       mensaje: "Error al cargar el pedido",
     });
   }
-<<<<<<< HEAD
-};
-=======
 };
 
 export const agregarProductoAlCarrito = async (req, res) => {
@@ -307,4 +304,3 @@ export const actualizarStock = async (req, res) => {
     res.status(500).json({ mensaje: "Hubo un error al actualizar el stock." });
   }
 };
->>>>>>> a33ada28ac2517920158d4a70cfd63f2132eac50

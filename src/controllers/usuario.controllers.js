@@ -114,6 +114,7 @@ export const editarUsuario = async (req, res) => {
     });
   }
 };
+
 export const editarEstadoUsuario = async (req, res) => {
   try {
     const { email } = req.params;
@@ -196,3 +197,59 @@ export const crearPedido = async (req, res) => {
     });
   }
 };
+
+export const agregarProductoAlCarrito = async (req, res) => {
+  try {
+    const { usuarioID, productoID, nuevoProducto } = req.body;
+
+    const usuario = await Usuario.findById(usuarioID);
+
+    if (!usuario) {
+      return res.status(404).json({ mensaje: "Usuario no encontrado." });
+    }
+
+    const carritoActual = usuario.carrito || [];
+    const productoExistente = carritoActual.find(
+      (producto) =>
+        producto._id === productoID && producto.precio === nuevoProducto.precio
+    );
+
+    if (productoExistente) {
+      productoExistente.cantidad += nuevoProducto.cantidad;
+    } else {
+      carritoActual.push(nuevoProducto);
+    }
+
+    usuario.carrito = carritoActual;
+
+    await usuario.save();
+
+    res.status(200).json({
+      mensaje: "Producto agregado al carrito exitosamente",
+      carrito: usuario.carrito,
+    });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ mensaje: "Hubo un error al agregar el producto al carrito." });
+  }
+};
+
+//   const usuarioID = "ID_DEL_USUARIO"; // Reemplaza con el ID del usuario
+//   const nuevoProducto = {
+//     nombre: "Producto de ejemplo",
+//     precio: 20.99,
+//     cantidad: 1,
+//     // Otros datos del producto que desees agregar
+//   };
+
+//   agregarProductoAlCarrito(usuarioID, nuevoProducto)
+//     .then((usuarioConCarritoActualizado) => {
+//       console.log(usuarioConCarritoActualizado);
+//       // Aquí puedes enviar la respuesta al cliente, por ejemplo, utilizando res.json()
+//     })
+//     .catch((error) => {
+//       console.log(error);
+//       // Aquí puedes enviar una respuesta de error al cliente
+//     });

@@ -10,6 +10,7 @@ import {
   editarUsuario,
   obtenerUsuarios,
   obtenerUsuario,
+  agregarProductoAlCarrito,
 } from "../controllers/usuario.controllers";
 import validarUsuario from "../helpers/validarUsuario";
 

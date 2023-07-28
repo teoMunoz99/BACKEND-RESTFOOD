@@ -101,9 +101,47 @@ export const obtenerUsuario = async (req, res) => {
   }
 };
 
+export const agregarProductoAlCarrito = async (req, res) => {
+  try {
+    const { usuarioID, productoID, nuevoProducto } = req.body;
+
+    const usuario = await Usuario.findById(usuarioID);
+    if (!usuario) {
+      return res.status(404).json({ mensaje: "Usuario no encontrado." });
+    }
+
+    const carritoActual = usuario.carrito || [];
+    const productoExistente = carritoActual.find(
+      (producto) =>
+        producto._id === productoID && producto.precio === nuevoProducto.precio
+    );
+
+    if (productoExistente) {
+      productoExistente.cantidad += nuevoProducto.cantidad;
+    } else {
+      carritoActual.push(nuevoProducto);
+    }
+
+    usuario.carrito = carritoActual;
+
+    await usuario.save();
+
+    res.status(200).json({
+      mensaje: "Producto agregado al carrito exitosamente",
+      carrito: usuario.carrito,
+    });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ mensaje: "Hubo un error al agregar el producto al carrito." });
+  }
+};
+
 export const editarUsuario = async (req, res) => {
   try {
-    await Usuario.findByIdAndUpdate(req.params.id, req.body);
+    const usuarioID = req.params.id;
+    await Usuario.findByIdAndUpdate(usuarioID, req.body);
     res.status(200).json({
       mensaje: "El usuario fue editado correctamente",
     });
@@ -114,6 +152,7 @@ export const editarUsuario = async (req, res) => {
     });
   }
 };
+
 export const editarEstadoUsuario = async (req, res) => {
   try {
     const { email } = req.params;

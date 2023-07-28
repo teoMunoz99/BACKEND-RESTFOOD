@@ -64,7 +64,7 @@ export const crearUsuario = async (req, res) => {
       imagen: usuario.imagen,
       estado: usuario.estado,
       rol: usuario.rol,
-      pedido: usuario.pedido,
+      pedidos: usuario.pedidos,
       carrito: usuario.carrito,
       favoritos: usuario.favoritos,
       uid: usuario._id,

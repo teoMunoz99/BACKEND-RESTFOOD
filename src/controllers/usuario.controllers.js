@@ -224,6 +224,40 @@ export const agregarPedidos = async (usuarioID, datos) => {
   }
 };
 
+export const actualizarPedidos = async (req, res) => {
+  try {
+    const { usuarioID, pedidoID, estado } = req.body;
+
+    const usuario = await Usuario.findById(usuarioID);
+
+    if (!usuario) {
+      return res.status(404).json({ mensaje: "Usuario no encontrado." });
+    }
+
+    const pedidoActual = usuario.pedidos || [];
+
+    const pedidoActualizar = pedidoActual.find(
+      (pedido) => pedido._id === pedidoID
+    );
+
+    if (!pedidoActualizar) {
+      return res.status(404).json({ mensaje: "Pedido no encontrado." });
+    }
+
+    pedidoActualizar.estado = estado;
+
+    await usuario.save();
+
+    res.status(200).json({
+      mensaje: "Pedido actualizado exitosamente",
+      pedidos: usuario.pedidos,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ mensaje: "Hubo un error al actualizar el pedido." });
+  }
+};
+
 export const agregarProductoAlCarrito = async (req, res) => {
   try {
     const { usuarioID, productoID, nuevoProducto } = req.body;

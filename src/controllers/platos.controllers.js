@@ -16,6 +16,13 @@ export const obtenerPlatos = async (req, res) => {
 
 export const crearPlato = async (req, res) => {
   try {
+    const platoExiste = await Plato.findOne({ nombre: req.body.nombre });
+    if (platoExiste) {
+      return res.status(400).json({
+        mensaje: "El plato ya existe",
+      });
+    }
+
     const platoNuevo = new Plato(req.body);
     await platoNuevo.save();
     res.status(201).json({

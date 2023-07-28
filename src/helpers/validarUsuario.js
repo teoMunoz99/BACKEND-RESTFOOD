@@ -23,8 +23,8 @@ const validarUsuario = [
   check("estado")
     .notEmpty()
     .withMessage("El estado es un dato obligatorio")
-    .isIn(["activo", "inactivo"])
-    .withMessage("El estado debe ser 'activo' o 'inactivo'"),
+    .isIn(["activo", "suspendido"])
+    .withMessage("El estado debe ser 'activo' o 'suspendido'"),
   check("rol")
     .notEmpty()
     .withMessage("El rol es un dato obligatorio")

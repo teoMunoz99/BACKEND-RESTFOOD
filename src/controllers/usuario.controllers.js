@@ -117,26 +117,27 @@ export const editarUsuario = async (req, res) => {
 
 export const editarEstadoUsuario = async (req, res) => {
   try {
-    const { email } = req.params;
+    const { id } = req.params;
     const { estado } = req.body;
-    const usuarioActualizado = await Usuario.findOneAndUpdate(
-      { email: email },
-      { estado: estado }
-    );
-    if (!usuarioActualizado) {
+    const usuario = await Usuario.findById(id);
+
+    if (!usuario) {
       return res.status(404).json({
         mensaje: "Usuario no encontrado",
       });
     }
 
+    usuario.estado = estado;
+
+    await usuario.save();
     res.status(200).json({
       mensaje: "El estado del usuario fue editado correctamente",
-      usuario: usuarioActualizado,
+      usuario: usuario,
     });
   } catch (error) {
     console.log(error);
     res.status(404).json({
-      mensaje: "Error al editar el estado",
+      mensaje: "Error al editar el estado del usuario",
     });
   }
 };

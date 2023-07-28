@@ -60,10 +60,7 @@ const usuarioSchema = new Schema({
     enum: ["usuario", "administrador"],
     required: true,
   },
-  pedido: {
-    type: [pedidoSchema],
-    default: [],
-  },
+  pedidos: [],
   favoritos: {
     type: [String],
     default: [],

@@ -197,36 +197,30 @@ export const agregarFavoritos = async (req, res) => {
   }
 };
 
-export const crearPedido = async (req, res) => {
+export const agregarPedidos = async (usuarioID, datos) => {
   try {
-    const { email, pedido } = req.body;
+    const usuario = await Usuario.findById(usuarioID);
 
-    if (!email || !pedido || pedido.length === 0) {
-      return res.status(400).json({
-        mensaje: "Debe proporcionar el email y al menos un pedido",
-      });
+    if (!usuario) {
+      throw new Error("Usuario no encontrado.");
     }
 
-    const usuarioPedido = await Usuario.findOneAndUpdate(
-      { email: email },
-      { pedido: pedido }
-    );
-
-    if (!usuarioPedido) {
-      return res.status(404).json({
-        mensaje: "Usuario no encontrado",
-      });
+    if (usuario.carrito.length === 0) {
+      throw new Error("No hay productos en el carrito.");
     }
 
-    res.status(200).json({
-      mensaje: "El pedido del usuario fue cargado correctamente",
-      usuario: usuarioPedido,
-    });
+    const pedidoActual = usuario.pedidos || [];
+    pedidoActual.push(datos);
+    usuario.pedidos = pedidoActual;
+
+    usuario.carrito = [];
+
+    await usuario.save();
+
+    return usuario.pedidos;
   } catch (error) {
     console.log(error);
-    res.status(404).json({
-      mensaje: "Error al cargar el pedido",
-    });
+    throw error;
   }
 };
 

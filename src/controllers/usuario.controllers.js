@@ -197,36 +197,64 @@ export const agregarFavoritos = async (req, res) => {
   }
 };
 
-export const crearPedido = async (req, res) => {
+export const agregarPedidos = async (usuarioID, datos) => {
   try {
-    const { email, pedido } = req.body;
+    const usuario = await Usuario.findById(usuarioID);
 
-    if (!email || !pedido || pedido.length === 0) {
-      return res.status(400).json({
-        mensaje: "Debe proporcionar el email y al menos un pedido",
-      });
+    if (!usuario) {
+      throw new Error("Usuario no encontrado.");
     }
 
-    const usuarioPedido = await Usuario.findOneAndUpdate(
-      { email: email },
-      { pedido: pedido }
+    if (usuario.carrito.length === 0) {
+      throw new Error("No hay productos en el carrito.");
+    }
+
+    const pedidoActual = usuario.pedidos || [];
+    pedidoActual.push(datos);
+    usuario.pedidos = pedidoActual;
+
+    usuario.carrito = [];
+
+    await usuario.save();
+
+    return usuario.pedidos;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const actualizarPedidos = async (req, res) => {
+  try {
+    const { usuarioID, pedidoID, estado } = req.body;
+
+    const usuario = await Usuario.findById(usuarioID);
+
+    if (!usuario) {
+      return res.status(404).json({ mensaje: "Usuario no encontrado." });
+    }
+
+    const pedidoActual = usuario.pedidos || [];
+
+    const pedidoActualizar = pedidoActual.find(
+      (pedido) => pedido._id === pedidoID
     );
 
-    if (!usuarioPedido) {
-      return res.status(404).json({
-        mensaje: "Usuario no encontrado",
-      });
+    if (!pedidoActualizar) {
+      return res.status(404).json({ mensaje: "Pedido no encontrado." });
     }
 
+    pedidoActualizar.estado = estado;
+
+    await usuario.save();
+
     res.status(200).json({
-      mensaje: "El pedido del usuario fue cargado correctamente",
-      usuario: usuarioPedido,
+      mensaje: "Pedido actualizado exitosamente",
+      pedidos: usuario.pedidos,
     });
   } catch (error) {
     console.log(error);
-    res.status(404).json({
-      mensaje: "Error al cargar el pedido",
-    });
+    res.status(500).json({ mensaje: "Hubo un error al actualizar el pedido." });
   }
 };
 

@@ -41,7 +41,7 @@ router
   .put(validarUsuario, editarUsuario)
   .get(obtenerUsuario);
 
-router.route("/crearPedido").post(crearPedido);
+// router.route("/crearPedido").post(crearPedido);
 router.route("/cargarFavoritos").post(agregarFavoritos);
 
 export default router;

@@ -1,32 +1,5 @@
 import mongoose, { Schema } from "mongoose";
 
-const pedidoSchema = new Schema({
-  domicilio: {
-    type: String,
-    required: true,
-  },
-  total: {
-    type: Number,
-    required: true,
-  },
-  nombresProductos: {
-    type: [String],
-    required: true,
-  },
-  estado: {
-    type: String,
-    required: true,
-  },
-  fecha: {
-    type: String,
-    required: true,
-  },
-  envio: {
-    type: [Number],
-    required: true,
-  },
-});
-
 const usuarioSchema = new Schema({
   nombre: {
     type: String,

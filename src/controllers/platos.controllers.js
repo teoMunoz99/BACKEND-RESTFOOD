@@ -16,6 +16,17 @@ export const obtenerPlatos = async (req, res) => {
 
 export const crearPlato = async (req, res) => {
   try {
+    const nombrePlato = req.body.nombre.trim().toLowerCase();
+    const platoExiste = await Plato.findOne({
+      nombre: { $regex: new RegExp(`^${nombrePlato}$`, "i") },
+    });
+
+    if (platoExiste) {
+      return res.status(400).json({
+        mensaje: "El plato ya existe",
+      });
+    }
+
     const platoNuevo = new Plato(req.body);
     await platoNuevo.save();
     res.status(201).json({
@@ -65,6 +76,34 @@ export const obtenerPlato = async (req, res) => {
     console.log(error);
     res.status(404).json({
       mensaje: "Error al buscar el plato",
+    });
+  }
+};
+
+export const borrarVariosPlatos = async (req, res) => {
+  try {
+    const { ids } = req.body;
+    if (!ids || !Array.isArray(ids) || ids.length === 0) {
+      return res.status(400).json({
+        mensaje: "Debe proporcionar un array de IDs válidos.",
+      });
+    }
+
+    const deleteResult = await Plato.deleteMany({ _id: { $in: ids } });
+    if (deleteResult.deletedCount === 0) {
+      return res.status(404).json({
+        mensaje: "No se encontraron platos con los IDs proporcionados.",
+      });
+    }
+
+    res.status(200).json({
+      mensaje: "Platos borrados exitosamente.",
+      cantidadBorrada: deleteResult.deletedCount,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      mensaje: "Error al borrar los platos.",
     });
   }
 };

@@ -166,6 +166,37 @@ export const eliminarUsuario = async (req, res) => {
   }
 };
 
+export const agregarFavoritos = async (req, res) => {
+  const { usuarioID } = req.params;
+  const { nuevofavoritos } = req.body;
+  try {
+    const usuario = await Usuario.findById(usuarioID);
+
+    if (!usuario) {
+      return res.status(404).json({ error: "Usuario no encontrado." });
+    }
+
+    const existe = usuario.favoritos.includes(nuevofavoritos);
+
+    if (!existe) {
+      usuario.favoritos.push(nuevofavoritos);
+    } else {
+      usuario.favoritos = usuario.favoritos.filter(
+        (fav) => fav !== nuevofavoritos
+      );
+    }
+
+    await usuario.save();
+
+    return res.status(200).json(usuario);
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({
+      mensaje: "Error al agregar a favoritos",
+    });
+  }
+};
+
 export const crearPedido = async (req, res) => {
   try {
     const { email, pedido } = req.body;

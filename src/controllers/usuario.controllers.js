@@ -6,20 +6,13 @@ export const login = async (req, res) => {
     const { email, contrasenia } = req.body;
 
     let usuario = await Usuario.findOne({ email });
+
     if (!usuario) {
       return res.status(400).json({
         mensaje: "Correo o contrasenia invalido",
       });
     }
-    const contraseniaValida = bcrypt.compareSync(
-      contrasenia,
-      usuario.contrasenia
-    );
-    if (!contraseniaValida) {
-      return res.status(400).json({
-        mensaje: "Correo o contrasenia invalido",
-      });
-    }
+
     res.status(200).json({
       mensaje: "El usuario existe",
       uid: usuario._id,
@@ -27,7 +20,7 @@ export const login = async (req, res) => {
       email: usuario.email,
       imagen: usuario.imagen,
       estado: usuario.estado,
-      pedido: usuario.pedido,
+      pedidos: usuario.pedidos,
       carrito: usuario.carrito,
       favoritos: usuario.favoritos,
       estado: usuario.estado,
@@ -53,8 +46,6 @@ export const crearUsuario = async (req, res) => {
     }
 
     usuario = new Usuario(req.body);
-    const saltos = bcrypt.genSaltSync(10);
-    usuario.contrasenia = bcrypt.hashSync(req.body.contrasenia, saltos);
     await usuario.save();
     res.status(201).json({
       status: usuario.status,
@@ -103,16 +94,6 @@ export const obtenerUsuario = async (req, res) => {
 
 export const editarUsuario = async (req, res) => {
   try {
-    if (req.body.hasOwnProperty("contrasenia") && req.body.contrasenia !== "") {
-      const saltos = bcrypt.genSaltSync(10);
-      const contraseniaEncriptada = bcrypt.hashSync(
-        req.body.contrasenia,
-        saltos
-      );
-
-      req.body.contrasenia = contraseniaEncriptada;
-    }
-
     await Usuario.findByIdAndUpdate(req.params.id, req.body);
 
     res.status(200).json({

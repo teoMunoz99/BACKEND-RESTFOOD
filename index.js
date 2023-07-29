@@ -4,6 +4,7 @@ import * as dotenv from "dotenv";
 import "./src/database/dbConnection";
 import platosRouter from "./src/routes/platos.routes";
 import usuariosRouter from "./src/routes/usuarios.routes";
+import path from 'path';
 
 dotenv.config();
 
@@ -16,6 +17,8 @@ app.listen(app.get("port"), () => {
 
 app.use(cors());
 app.use(express.json());
+app.use(express.static(path.join(__dirname,'/public')))
 
 app.use("/apiRestFood", platosRouter);
 app.use("/apiRestFood/auth", usuariosRouter);
+

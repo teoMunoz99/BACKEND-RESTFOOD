@@ -103,7 +103,18 @@ export const obtenerUsuario = async (req, res) => {
 
 export const editarUsuario = async (req, res) => {
   try {
+    if (req.body.hasOwnProperty("contrasenia") && req.body.contrasenia !== "") {
+      const saltos = bcrypt.genSaltSync(10);
+      const contraseniaEncriptada = bcrypt.hashSync(
+        req.body.contrasenia,
+        saltos
+      );
+
+      req.body.contrasenia = contraseniaEncriptada;
+    }
+
     await Usuario.findByIdAndUpdate(req.params.id, req.body);
+
     res.status(200).json({
       mensaje: "El usuario fue editado correctamente",
     });
@@ -114,7 +125,6 @@ export const editarUsuario = async (req, res) => {
     });
   }
 };
-
 export const editarEstadoUsuario = async (req, res) => {
   try {
     const { id } = req.params;

@@ -14,7 +14,7 @@ Además, cuenta con un sistema de administrador protegido con usuario y contrase
 2. Clona este repositorio en tu máquina local usando el siguiente comando:
 
 ```bash
-git clone https://github.com/tu_usuario/restfood-backend.git
+git clone https://github.com/teoMunoz99/BACKEND-RESTFOOD.git
 ```
 
 ## Estructura del proyecto
@@ -57,8 +57,8 @@ Asegúrate de tener instalado lo siguiente en tu sistema:
 
 Sigue estos pasos para configurar el proyecto en tu entorno local:
 
-1. Clona el repositorio desde GitHub: `git clone https://github.com/Mateo872/restfood.git`
-2. Navega al directorio del proyecto: `cd restfood`
+1. Clona el repositorio desde GitHub: `git clone https://github.com/teoMunoz99/BACKEND-RESTFOOD.gitt`
+2. Navega al directorio del proyecto: `cd BACKEND-RESTFOOD`
 3. Instala las dependencias del proyecto: `npm install`
 
 ## Contribución
@@ -79,7 +79,3 @@ Sigue estos pasos para configurar el proyecto en tu entorno local:
 -   [Tadeo Muñoz ](https://github.com/teoMunoz99)
 -   [Mario Chavez ](https://github.com/Mario-Chavez)
 -   [Juan Toranzo ](https://github.com/juantoranzos)
-
-## ¡Visita nuestro sitio Aqui!
-
-[RestFood](https://restfood-gamma.vercel.app/)

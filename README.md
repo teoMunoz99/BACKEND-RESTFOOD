@@ -2,28 +2,49 @@
   <img src="https://res.cloudinary.com/mach/image/upload/v1690740259/logoRestFood_po52of.png" alt="Captura de pantalla">
 </p>
 
-RestFood es una aplicación de menú de restaurante que te permite explorar y comprar una amplia variedad de platos y bebidas para disfrutar de deliciosos productos desde la comodidad de tu hogar. La aplicación cuenta con un buscador por nombre y categoría, filtros de precio y categoría, un carrito de compra, y métodos de pago con tarjeta para una experiencia de compra fluida.
+Bienvenido al backend de RestFood, la aplicación de menú de comidas y bebidas. Este repositorio contiene el código fuente del servidor backend para gestionar la lógica y la base de datos de la aplicación.
 
 Además, cuenta con un sistema de administrador protegido con usuario y contraseña, donde los administradores pueden gestionar los usuarios y los pedidos. El sistema de login permite a los usuarios registrarse y acceder a sus cuentas para realizar compras de manera personalizada.
 
 ## Características
 
--   Explora un amplio menú de platos y bebidas.
--   Utiliza el buscador para encontrar productos por nombre o categoría.
--   Filtra los productos según su precio y categoría.
--   Agrega elementos al carrito de compra y realiza compras seguras con métodos de pago con tarjeta.
--   Sistema de administrador con login seguro para gestionar usuarios y pedidos
--   Registra nuevos usuarios y visualiza la lista de usuarios y pedidos pendientes.
--   Administra los pedidos, marcándolos como entregados o eliminándolos cuando sea necesario.
+## Instalación
 
-## Características Tecnologicas utilizadas
+1. Asegúrate de tener Node.js y npm instalados en tu sistema.
+2. Clona este repositorio en tu máquina local usando el siguiente comando:
 
--   React.js es una biblioteca de JavaScript de código abierto que se utiliza para construir interfaces de usuario interactivas y dinámicas. En RestFood, React se utiliza para crear la interfaz de usuario y gestionar los componentes reactivos que permiten a los usuarios interactuar con la aplicación de forma rápida y eficiente.
--   React Hook Form. Permite manejar fácilmente la validación y el seguimiento de los datos ingresados por el usuario en los formularios.
--   React.js para construir la interfaz de usuario interactiva.
--   React Bootstrap es una biblioteca de componentes que combina el poder de Bootstrap con las capacidades de React. Proporciona un conjunto de componentes preestilizados y listos para usar, lo que facilita la creación de interfaces de usuario consistentes y atractivas.
--   SweetAlert2 es una biblioteca de alertas personalizadas para mejorar la interacción con el usuario. Permite mostrar alertas, confirmaciones y mensajes de éxito de una manera más elegante y amigable que las alertas estándar del navegador.
--   Estilos propios de CSS para el diseño y la presentación visual.
+```bash
+git clone https://github.com/tu_usuario/restfood-backend.git
+```
+
+## Estructura del proyecto
+
+El proyecto sigue una estructura organizada para facilitar el desarrollo y el mantenimiento:
+
+```bash
+restfood-backend/
+  ├── controllers/
+  ├── middlewares/
+  ├── models/
+  ├── routes/
+  ├── utils/
+  ├── .env
+  ├── .gitignore
+  ├── package.json
+  ├── server.js
+  └── ...
+
+```
+
+-   controllers/: Contiene controladores que manejan la lógica de negocio de la aplicación.
+-   middlewares/: Contiene middleware personalizados utilizados en las rutas.
+-   models/: Define los modelos de datos utilizando Mongoose.
+-   routes/: Contiene las definiciones de las rutas de la API.
+-   utils/: Almacena utilidades y funciones auxiliares.
+-   .env: Archivo de configuración para las variables de entorno.
+-   .gitignore: Archivo para especificar qué archivos y carpetas deben ser ignorados por Git
+-   package.json: Archivo que contiene las dependencias del proyecto y scripts de npm.
+-   server.js: Punto de entrada del servidor.
 
 ## Requisitos previos
 

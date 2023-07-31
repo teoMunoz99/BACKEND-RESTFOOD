@@ -4,8 +4,6 @@
 
 Bienvenido al backend de RestFood, la aplicación de menú de comidas y bebidas. Este repositorio contiene el código fuente del servidor backend para gestionar la lógica y la base de datos de la aplicación.
 
-Además, cuenta con un sistema de administrador protegido con usuario y contraseña, donde los administradores pueden gestionar los usuarios y los pedidos. El sistema de login permite a los usuarios registrarse y acceder a sus cuentas para realizar compras de manera personalizada.
-
 ## Características
 
 ## Instalación
